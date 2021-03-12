@@ -22,7 +22,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        Powered by Love.
+        Powered by Love
       </footer>
     </div>
   )
