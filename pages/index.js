@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import Camera from './components/Camera'
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Mood Lifter
         </h1>
-
+        <Camera />
         <p className={styles.description}>
           We will lift your mood in a second! (or two)
         </p>
