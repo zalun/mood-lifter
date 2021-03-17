@@ -1,11 +1,12 @@
 // Create a video and recognize mood
 import React, { useEffect, useState } from 'react'
+import { useStore } from 'react-context-hook'
 import PropTypes from 'prop-types'
 
 // global: faceapi
 
 // How confident about expressions should be the network to consider it
-const THRESHOLD = 0.6
+const THRESHOLD = 0.5
 
 const startModels = async () => {
   return Promise.all([
@@ -19,7 +20,6 @@ const startModels = async () => {
 const startVideo = (video) => {
   // Connect camera to the video output
   // TODO: specify the camera resolution
-  console.log('---> starting video')
   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
     .then(function (stream) {
       video.current.srcObject = stream
@@ -32,7 +32,10 @@ const Camera = React.forwardRef((props, ref) => {
   const [isStarted, setStarted] = useState(false)
   // Hold the recognized expressions in a state
   const [expressions, setExpressions] = useState([])
-  // width and height of the video output
+  // Status is placed in global store
+  const [status, setStatus] = useStore('status')
+
+  // width and height of the video output 
   const width = props.width || 240
   const height = props.height || 160
 
@@ -55,25 +58,26 @@ const Camera = React.forwardRef((props, ref) => {
     // Call this function after the component is mounted.
     if (!isStarted) {
       setTimeout(async () => {
-        console.log('--- loading face-api models')
+        setStatus('loading face-api models...')
         await startModels()
-        console.log('--- models loaded')
+        setStatus('starting video...')
         startVideo(ref)
         setStarted(true)
+        setStatus('')
       }, 300)
     }
   })
 
-	const all = Object.entries(expressions)
-	const chosen = all.filter(expression => expression[1] > THRESHOLD).map(expression => expression[0])
+  const all = Object.entries(expressions).map(expression => { return { name: expression[0], score: expression[1] } })
+  const chosen = all.filter(expression => expression.score > THRESHOLD).map(expression => expression.name)
 
   // Render the video (the paragraph is just for the presentation while development)
   return (<>
-    <p>{chosen && chosen.map(expression => <>{expression}</>)}</p>
+    <p>{chosen}</p>
     <video ref={ref} width={width} height={height} onPlay={detectMood} autoPlay muted></video>
-		<p>{all && all.map(expression => {
-		  return <>{expression[0]}: {Math.round(expression[1] * 100)}% </>
-		})}</p>
+    <p>{all && all.map(expression => {
+      return <>{expression.name}: {Math.round(expression.score * 100)}% </>
+    })}</p>
 
   </>)
 })

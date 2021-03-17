@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
+import { useStore } from 'react-context-hook'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Camera from './components/Camera'
 
 export default function Home () {
   const videoRef = useRef()
+  const [status] = useStore('status', 'initializing...')
   return (
     <div className={styles.container}>
       <Head>
@@ -24,7 +26,7 @@ export default function Home () {
       </main>
 
       <footer className={styles.footer}>
-        Powered by Love
+        Powered by Love{status ? `| ${status}` : ''}
       </footer>
     </div>
   )

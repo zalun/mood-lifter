@@ -1,3 +1,4 @@
+import { withStore } from 'react-context-hook'
 import PropTypes from 'prop-types'
 import '../styles/globals.css'
 
@@ -6,8 +7,8 @@ function MyApp ({ Component, pageProps }) {
 }
 
 MyApp.propTypes = {
-  Component: PropTypes.object,
+  Component: PropTypes.func,
   pageProps: PropTypes.object
 }
 
-export default MyApp
+export default withStore(MyApp)
