@@ -3,19 +3,22 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import CollectExpression from '../components/CollectExpression'
 
+const initialStatus = {
+  json: '',
+  status: '',
+  currentDetectionName: 'initial',
+  expressions: {},
+  result: 'We will lift your mood in a second! (or two)'
+}
 class Home extends Component {
-  state = {
-    status: '',
-    currentDetectionName: 'initial',
-    expressions: {},
-    result: 'We will lift your mood in a second! (or two)'
-  }
+  state = initialStatus
 
   constructor (props) {
     super(props)
     this.expressionsRef = createRef()
     this.handleExpressions = this.handleExpressions.bind(this)
     this.handleStatusChange = this.handleStatusChange.bind(this)
+    this.handleRestart = this.handleRestart.bind(this)
   }
 
   handleExpressions (expressions) {
@@ -38,7 +41,10 @@ class Home extends Component {
           }, 10000)
           break
         case 'second-reaction':
-          this.setState({ result: 'Expressions collected.'})
+          this.setState({ 
+            result: 'Expressions collected.',
+            results: JSON.stringify(this.state.expressions, null, 2)
+           })
           console.log(this.state.expressions)
       }
     })
@@ -46,6 +52,10 @@ class Home extends Component {
 
   handleStatusChange (status) {
     this.setState({ status })
+  }
+
+  handleRestart () {
+    this.setState(initialStatus)
   }
 
   render () {
@@ -70,6 +80,8 @@ class Home extends Component {
           <p className={styles.description}>
             {this.state.result}
           </p>
+          {this.state.expressions['second-reaction'] ? <button onClick={this.handleRestart}>AGAIN!</button> : ''}
+          <pre className={styles.json}><code>{this.state.results}</code></pre>
         </main>
 
         <footer className={styles.footer}>
