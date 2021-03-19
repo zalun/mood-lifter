@@ -2,11 +2,16 @@ import React, { useRef } from 'react'
 import { useStore } from 'react-context-hook'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Camera from './components/Camera'
+import CollectExpression from './components/CollectExpression'
 
 export default function Home () {
-  const videoRef = useRef()
   const [status] = useStore('status', 'initializing...')
+  const expressionsRef = useRef()
+  const handleExpressions = (expressions) => {
+    console.log('Received expressions', expressions)
+    console.log('expressionsRef', expressionsRef)
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,14 +24,14 @@ export default function Home () {
         <h1 className={styles.title}>
           Mood Lifter
         </h1>
-        <Camera ref={videoRef} />
+        <CollectExpression onExpressions={ handleExpressions } ref={ expressionsRef } />
         <p className={styles.description}>
           We will lift your mood in a second! (or two)
         </p>
       </main>
 
       <footer className={styles.footer}>
-        Powered by Love{status ? `| ${status}` : ''}
+        Powered by Love{status ? ` | ${status}` : ''}
       </footer>
     </div>
   )
