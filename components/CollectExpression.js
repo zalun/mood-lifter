@@ -23,8 +23,11 @@ const CollectExpression = forwardRef((props, ref) => {
   const videoRef = useRef()
   // Prevent from starting the face recognition multiple times
   const [isStarted, setStarted] = useState(false)
+  // Current name of detection
+  const [currentDetectionName, setCurrentDetectionName] = useState('')
   // Hold the recognized expressions in a state
   const [expressions, setExpressions] = useState([])
+  // Store the detection interval id in the state to clear it later
   const [detectionInterval, setDetectionInterval] = useState(null)
 
   // width and height of the video output
@@ -70,7 +73,11 @@ const CollectExpression = forwardRef((props, ref) => {
       clearInterval(detectionInterval)
       setDetectionInterval(0)
       props.setStatus('expressions received')
-      props.onExpressions(expressions)
+      props.onExpressions(expressions, props.detectionName)
+    }
+    if (videoRef.current && currentDetectionName !== props.detectionName) {
+      detectMood()
+      setCurrentDetectionName(props.detectionName)
     }
   })
 
@@ -89,7 +96,8 @@ CollectExpression.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   onExpressions: PropTypes.func.isRequired,
-  setStatus: PropTypes.func.isRequired
+  setStatus: PropTypes.func.isRequired,
+  detectionName: PropTypes.string.isRequired
 }
 
 export default CollectExpression

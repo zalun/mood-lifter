@@ -5,7 +5,10 @@ import CollectExpression from '../components/CollectExpression'
 
 class Home extends Component {
   state = {
-    status: ''
+    status: '',
+    currentDetectionName: 'initial',
+    expressions: {},
+    result: 'We will lift your mood in a second! (or two)'
   }
 
   constructor (props) {
@@ -16,9 +19,29 @@ class Home extends Component {
   }
 
   handleExpressions (expressions) {
-    console.log('Received expressions', expressions)
-    console.log('expressionsRef', this.expressionsRef.current)
-    setTimeout(this.expressionsRef.current.detectExpression, 5000)
+    this.setState({
+      expressions: {
+        ...this.state.expressions,
+        [this.state.currentDetectionName]: expressions
+      }
+    })
+    setTimeout(() => {
+      switch (this.state.currentDetectionName) {
+        case 'initial':
+          setTimeout(() => {
+            this.setState({ currentDetectionName: 'first-reaction' })
+          }, 2000)
+          break
+        case 'first-reaction':
+          setTimeout(() => {
+            this.setState({ currentDetectionName: 'second-reaction' })
+          }, 10000)
+          break
+        case 'second-reaction':
+          this.setState({ result: 'Expressions collected.'})
+          console.log(this.state.expressions)
+      }
+    })
   }
 
   handleStatusChange (status) {
@@ -38,14 +61,19 @@ class Home extends Component {
           <h1 className={styles.title}>
             Mood Lifter
           </h1>
-          <CollectExpression setStatus={ this.handleStatusChange } onExpressions={ this.handleExpressions } ref={ this.expressionsRef } />
+          <CollectExpression
+            detectionName={this.state.currentDetectionName}
+            setStatus={this.handleStatusChange}
+            onExpressions={this.handleExpressions}
+            ref={this.expressionsRef}
+          />
           <p className={styles.description}>
-            We will lift your mood in a second! (or two)
+            {this.state.result}
           </p>
         </main>
 
         <footer className={styles.footer}>
-          Powered by Love{this.state.status ? ` | ${this.state.status}` : ''}
+          Powered by Love | {this.state.currentDetectionName} &gt; {this.state.status}
         </footer>
       </div>
     )
