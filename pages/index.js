@@ -31,6 +31,7 @@ class Home extends Component {
     setTimeout(() => {
       switch (this.state.currentDetectionName) {
         case 'initial':
+          // TODO show a picture with first reactions
           setTimeout(() => {
             this.setState({ currentDetectionName: 'first-reaction' })
           }, 2000)
@@ -41,10 +42,10 @@ class Home extends Component {
           }, 10000)
           break
         case 'second-reaction':
-          this.setState({ 
+          this.setState({
             result: 'Expressions collected.',
             results: JSON.stringify(this.state.expressions, null, 2)
-           })
+          })
           console.log(this.state.expressions)
       }
     })
