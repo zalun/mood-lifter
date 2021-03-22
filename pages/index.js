@@ -47,7 +47,7 @@ class Home extends Component {
           console.log(this.state.expressions)
           setTimeout(() => {
             this.setState({ currentDetectionName: 'second-reaction' })
-          }, 10000)
+          }, 8000)
           break
         case 'second-reaction':
           this.setState({
