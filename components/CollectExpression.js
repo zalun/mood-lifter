@@ -84,9 +84,6 @@ const CollectExpression = forwardRef((props, ref) => {
   // Render the video (the paragraph is just for the presentation while development)
   return <>
     <video ref={videoRef} width={width} height={height} autoPlay muted></video>
-    <p>{expressions && expressions.map(exp => {
-      return <span key={exp.name}>{exp.name}: {Math.round(exp.score * 100)}% </span>
-    })}</p>
   </>
 })
 

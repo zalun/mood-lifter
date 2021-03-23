@@ -1,4 +1,6 @@
-const THRESHOLD = 0.5
+exports.THRESHOLD = 0.5
+
+exports.EXPRESSIONS = ['neutral', 'happy', 'sad', 'angry', 'fearful', 'disgusted', 'surprised']
 
 exports.loadModels = async () => {
   return Promise.all([
@@ -20,7 +22,7 @@ exports.readExpression = async (videoRef) => {
   if (detections && detections.length > 0) {
     // set expressions state
     response.all = Object.entries(detections[0].expressions).map(exp => { return { name: exp[0], score: exp[1] } })
-    response.chosen = response.all.filter(exp => exp.score > THRESHOLD).map(exp => exp.name).pop()
+    response.chosen = response.all.filter(exp => exp.score > exports.THRESHOLD).map(exp => exp.name).pop()
   }
   return response
 }

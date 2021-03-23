@@ -29,8 +29,6 @@ function getModalStyle () {
 }
 
 const Picture = forwardRef((props, ref) => {
-  const { classes } = props
-
   return <>
   <Modal
     open={props.visible}
@@ -38,7 +36,7 @@ const Picture = forwardRef((props, ref) => {
     aria-describedby="simple-modal-description"
     style={{ alignItems: 'center', justifyContent: 'center' }}
 
-  ><div style={getModalStyle()} className={classes.paper}>
+  ><div style={getModalStyle()} className={props.classes.paper}>
     <img width='100%' ref={ref} src={props.url}/>
     <p>Please stay with us...</p>
   </div></Modal>
@@ -48,14 +46,27 @@ const Picture = forwardRef((props, ref) => {
     aria-describedby="simple-modal-description"
     style={{ alignItems: 'center', justifyContent: 'center' }}
 
-  ><div style={getModalStyle()} className={classes.paper}>
+  ><div style={getModalStyle()} className={props.classes.paper}>
     <Fab
-        color='primary'
+        color='secondary'
         variant='extended'
         size='large'
         onClick={props.handleRestart}
-        >Thank you. Would you like to do it again?
-    </Fab>
+        >Would you like to do it again?</Fab>
+		&nbsp;
+		<Fab
+        color='primary'
+        variant='extended'
+        size='large'
+        onClick={props.showResults}
+        >Show Results</Fab>
+		&nbsp;
+		<Fab
+        color='primary'
+        variant='extended'
+        size='large'
+        href="/about"
+        >About</Fab>
   </div></Modal>
   </>
 })
@@ -66,6 +77,7 @@ Picture.propTypes = {
   buttonVisible: PropTypes.bool.isRequired,
   url: PropTypes.string.isRequired,
   handleRestart: PropTypes.func.isRequired,
+  showResults: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired // withStyles
 }
 
