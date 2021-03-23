@@ -7,7 +7,9 @@
   },
   "globals": {
     "React": "writable",
-    "faceapi": "writable"
+    "faceapi": "writable",
+    "fetch": "writable",
+    "FormData": "writable"
   },
   "plugins": ["react"],
   "settings": {
