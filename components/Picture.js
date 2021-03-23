@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Fab, Modal } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     position: 'absolute',
     width: theme.spacing(50),
@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 })
 
-function getModalStyle () {
+function getModalStyle() {
   return {
     width: '1074px',
     maxWidth: '100%',
@@ -29,46 +29,51 @@ function getModalStyle () {
 }
 
 const Picture = forwardRef((props, ref) => {
-  return <>
-  <Modal
-    open={props.visible}
-    aria-labelledby="simple-modal-title"
-    aria-describedby="simple-modal-description"
-    style={{ alignItems: 'center', justifyContent: 'center' }}
-
-  ><div style={getModalStyle()} className={props.classes.paper}>
-    <img width='100%' ref={ref} src={props.url}/>
-    <p>Please stay with us...</p>
-  </div></Modal>
-  <Modal
-    open={props.buttonVisible}
-    aria-labelledby="simple-modal-title"
-    aria-describedby="simple-modal-description"
-    style={{ alignItems: 'center', justifyContent: 'center' }}
-
-  ><div style={getModalStyle()} className={props.classes.paper}>
-    <Fab
-        color='secondary'
-        variant='extended'
-        size='large'
-        onClick={props.handleRestart}
-        >Would you like to do it again?</Fab>
-		&nbsp;
-		<Fab
-        color='primary'
-        variant='extended'
-        size='large'
-        onClick={props.showResults}
-        >Show Results</Fab>
-		&nbsp;
-		<Fab
-        color='primary'
-        variant='extended'
-        size='large'
-        href="/about"
-        >About</Fab>
-  </div></Modal>
-  </>
+  return (
+    <>
+      <Modal
+        open={props.visible}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        style={{ alignItems: 'center', justifyContent: 'center' }}
+      >
+        <div style={getModalStyle()} className={props.classes.paper}>
+          <img width="100%" ref={ref} src={props.url} />
+          <p>Please stay with us...</p>
+        </div>
+      </Modal>
+      <Modal
+        open={props.buttonVisible}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        style={{ alignItems: 'center', justifyContent: 'center' }}
+      >
+        <div style={getModalStyle()} className={props.classes.paper}>
+          <Fab
+            color="secondary"
+            variant="extended"
+            size="large"
+            onClick={props.handleRestart}
+          >
+            Would you like to do it again?
+          </Fab>
+          &nbsp;
+          <Fab
+            color="primary"
+            variant="extended"
+            size="large"
+            onClick={props.showResults}
+          >
+            Show Results
+          </Fab>
+          &nbsp;
+          <Fab color="primary" variant="extended" size="large" href="/about">
+            About
+          </Fab>
+        </div>
+      </Modal>
+    </>
+  )
 })
 
 Picture.displayName = 'Picture'

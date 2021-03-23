@@ -1,5 +1,11 @@
 // Create a video and recognize mood
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import { loadModels, readExpression } from '../helpers/expressions'
 
@@ -12,11 +18,12 @@ let isExpressionDetected = null
 const startVideo = (video) => {
   // Connect camera to the video output
   // TODO: specify the camera resolution
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+  navigator.mediaDevices
+    .getUserMedia({ video: { facingMode: 'user' }, audio: false })
     .then(function (stream) {
       video.srcObject = stream
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 }
 
 const CollectExpression = forwardRef((props, ref) => {
@@ -82,9 +89,11 @@ const CollectExpression = forwardRef((props, ref) => {
   })
 
   // Render the video (the paragraph is just for the presentation while development)
-  return <>
-    <video ref={videoRef} width={width} height={height} autoPlay muted></video>
-  </>
+  return (
+    <>
+      <video ref={videoRef} width={width} height={height} autoPlay muted></video>
+    </>
+  )
 })
 
 CollectExpression.displayName = 'CollectExpression'

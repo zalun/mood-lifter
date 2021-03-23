@@ -20,7 +20,7 @@ const initialStatus = {
 class Home extends Component {
   state = initialStatus
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.expressionsRef = createRef()
     this.handleExpressions = this.handleExpressions.bind(this)
@@ -33,7 +33,7 @@ class Home extends Component {
   // Collect expressions from all components
   // Store them in a state store
   // Order first and second reactions
-  handleExpressions (expressions) {
+  handleExpressions(expressions) {
     this.setState({
       expressions: {
         ...this.state.expressions,
@@ -65,30 +65,32 @@ class Home extends Component {
   }
 
   // Change the status content from any place in the app
-  handleStatusChange (status) {
+  handleStatusChange(status) {
     this.setState({ status })
   }
 
   // Should the Picture modal be visible
-  closePicture () {
+  closePicture() {
     this.setState({ isPictureVisible: false })
   }
 
   // Display a modal with collected expressions
-  showResults () {
-    this.setState({ 
+  showResults() {
+    this.setState({
       isResultVisible: true,
       isPictureVisible: false,
       isButtonVisible: false
-     })
+    })
   }
 
   // Restart to original state (after 1s)
-  handleRestart () {
-    setTimeout(() => { this.setState(initialStatus) }, 1000)
+  handleRestart() {
+    setTimeout(() => {
+      this.setState(initialStatus)
+    }, 1000)
   }
 
-  render () {
+  render() {
     return (
       <Container maxWidth="lg">
         <Head>
@@ -110,13 +112,9 @@ class Home extends Component {
           url={this.state.pictureUrl}
         />
         <main className={styles.main}>
-          <h1 className={styles.title}>
-            Mood Lifter
-          </h1>
+          <h1 className={styles.title}>Mood Lifter</h1>
 
-          <p className={styles.description}>
-            {this.state.result}
-          </p>
+          <p className={styles.description}>{this.state.result}</p>
           <CollectExpression
             detectionName={this.state.currentDetectionName}
             setStatus={this.handleStatusChange}
