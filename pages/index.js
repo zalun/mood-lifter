@@ -11,10 +11,11 @@ const initialStatus = {
   status: '',
   currentDetectionName: 'initial',
   expressions: {},
+  initialExpression: '',
   isPictureVisible: false,
   isResultVisible: false,
   isButtonVisible: false,
-  pictureUrl: '/art/bunnies/happy.jpg',
+  pictureUrl: '',
   result: 'We will lift your mood in a second! (or two)'
 }
 class Home extends Component {
@@ -30,21 +31,35 @@ class Home extends Component {
     this.showResults = this.showResults.bind(this)
   }
 
+  async getPictureUrl() {
+    const response = await fetch(`/api/get_picture/${this.state.initialExpression}`, {
+      headers: { 'Content-type': 'application/json; charset=UTF-8' }
+    })
+    const data = await response.json()
+    if (data.success && data.picture) {
+      return `https://mood-lifter-art.s3.eu-central-1.amazonaws.com/${data.picture.url}`
+    }
+  }
+
   // Collect expressions from all components
   // Store them in a state store
   // Order first and second reactions
   handleExpressions(expressions) {
+    const mainExpression = expressions.find((exp) => exp.score > 0.5)
     this.setState({
+      initialExpression: mainExpression.name,
       expressions: {
         ...this.state.expressions,
         [this.state.currentDetectionName]: expressions
       }
     })
-    setTimeout(() => {
+    setTimeout(async () => {
       switch (this.state.currentDetectionName) {
         case 'initial':
-          // TODO choose a picture with first reactions
-          this.setState({ isPictureVisible: true })
+          this.setState({
+            isPictureVisible: true,
+            pictureUrl: await this.getPictureUrl()
+          })
           setTimeout(() => {
             this.setState({ currentDetectionName: 'first-reaction' })
           }, 2000) // 2000

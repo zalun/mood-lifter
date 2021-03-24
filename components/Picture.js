@@ -80,7 +80,7 @@ Picture.displayName = 'Picture'
 Picture.propTypes = {
   visible: PropTypes.bool.isRequired,
   buttonVisible: PropTypes.bool.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   handleRestart: PropTypes.func.isRequired,
   showResults: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired // withStyles

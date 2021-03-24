@@ -1,12 +1,6 @@
-import aws from 'aws-sdk'
-export default async function SignS3(req, res) {
-  aws.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_LIFTER,
-    secretAccessKey: process.env.AWS_PASSWORD_LIFTER,
-    region: process.env.AWS_REGION_LIFTER,
-    signatureVersion: 'v4'
-  })
+import aws from '../../helpers/aws'
 
+export default async function SignS3(req, res) {
   const s3 = new aws.S3()
   const s3Data = {
     Bucket: process.env.AWS_BUCKET_NAME,
@@ -20,5 +14,5 @@ export default async function SignS3(req, res) {
   }
   const post = await s3.createPresignedPost(s3Data)
 
-  res.status(200).json(post)
+  return res.status(200).json(post)
 }
