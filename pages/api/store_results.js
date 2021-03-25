@@ -17,7 +17,9 @@ export default async function StorePicture(req, res) {
     expressions[measurement] = translate(req.body[measurement])
   })
   const params = {
-    TableName: 'mood-lifter-results',
+    TableName: process.env.MOOD_LIFTER_TEST_ENV
+      ? 'mood-lifter-results-test'
+      : 'mood-lifter-results',
     Item: {
       resultId: uuidv4(),
       pictureUrl: req.body.pictureUrl,

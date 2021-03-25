@@ -16,7 +16,7 @@ const styles = (theme) => ({
 
 function getModalStyle() {
   return {
-    width: '850px',
+    width: '650px',
     maxWidth: '100%',
     maxHeight: '100%',
     position: 'fixed',
