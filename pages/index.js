@@ -16,6 +16,7 @@ const initialStatus = {
   isResultVisible: false,
   isButtonVisible: false,
   pictureUrl: '',
+  pictureFilename: '',
   result: 'We will lift your mood in a second! (or two)'
 }
 class Home extends Component {
@@ -25,19 +26,19 @@ class Home extends Component {
     super(props)
     this.expressionsRef = createRef()
     this.handleExpressions = this.handleExpressions.bind(this)
-    this.handleStatusChange = this.handleStatusChange.bind(this)
+    this.setStatus = this.setStatus.bind(this)
     this.handleRestart = this.handleRestart.bind(this)
     this.closePicture = this.closePicture.bind(this)
     this.showResults = this.showResults.bind(this)
   }
 
-  async getPictureUrl() {
+  async fetchPictureUrl() {
     const response = await fetch(`/api/get_picture/${this.state.initialExpression}`, {
       headers: { 'Content-type': 'application/json; charset=UTF-8' }
     })
     const data = await response.json()
     if (data.success && data.picture) {
-      return `https://mood-lifter-art.s3.eu-central-1.amazonaws.com/${data.picture.url}`
+      return data.picture.url
     }
   }
 
@@ -54,11 +55,14 @@ class Home extends Component {
       }
     })
     setTimeout(async () => {
+      let pictureFilename
       switch (this.state.currentDetectionName) {
         case 'initial':
+          pictureFilename = await this.fetchPictureUrl()
           this.setState({
             isPictureVisible: true,
-            pictureUrl: await this.getPictureUrl()
+            pictureFilename: pictureFilename,
+            pictureUrl: `https://mood-lifter-art.s3.eu-central-1.amazonaws.com/${pictureFilename}`
           })
           setTimeout(() => {
             this.setState({ currentDetectionName: 'first-reaction' })
@@ -74,19 +78,24 @@ class Home extends Component {
             result: 'Expressions collected.',
             isButtonVisible: true
           })
+          this.storeResults()
           console.log(this.state.expressions)
       }
     })
   }
 
   // Change the status content from any place in the app
-  handleStatusChange(status) {
+  setStatus(status) {
     this.setState({ status })
   }
 
   // Should the Picture modal be visible
   closePicture() {
     this.setState({ isPictureVisible: false })
+  }
+
+  getPictureUrl(filename) {
+    return `https://mood-lifter-art.s3.eu-central-1.amazonaws.com/${filename}`
   }
 
   // Display a modal with collected expressions
@@ -96,6 +105,24 @@ class Home extends Component {
       // isPictureVisible: false,
       isButtonVisible: false
     })
+  }
+
+  // Store Results in a database
+  async storeResults() {
+    this.setStatus('Storing results')
+    const response = await fetch('/api/store_results', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify({
+        pictureUrl: this.state.pictureFilename,
+        ...this.state.expressions
+      })
+    })
+    if (response.ok) {
+      this.setStatus('Results stored')
+    } else {
+      this.setStatus('Storing results failed')
+    }
   }
 
   // Restart to original state (after 1s)
@@ -132,7 +159,7 @@ class Home extends Component {
           <p className={styles.description}>{this.state.result}</p>
           <CollectExpression
             detectionName={this.state.currentDetectionName}
-            setStatus={this.handleStatusChange}
+            setStatus={this.setStatus}
             onExpressions={this.handleExpressions}
             ref={this.expressionsRef}
           />
