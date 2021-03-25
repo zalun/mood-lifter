@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Fab, Modal } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
-const THRESHOLD = 0.3
+const THRESHOLD = 0.2
 
 const styles = (theme) => ({
   paper: {
@@ -77,7 +77,7 @@ const Results = (props) => {
                   {reaction.expressions.map((expression) => {
                     return (
                       <>
-                        {expression.name}: {expression.score}%
+                        {expression.name}:&nbsp;{expression.score}%&nbsp;
                       </>
                     )
                   })}

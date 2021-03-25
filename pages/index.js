@@ -93,7 +93,7 @@ class Home extends Component {
   showResults() {
     this.setState({
       isResultVisible: true,
-      isPictureVisible: false,
+      // isPictureVisible: false,
       isButtonVisible: false
     })
   }
