@@ -7,14 +7,14 @@ export default function About() {
   return (
     <Container maxWidth="lg">
       <Head>
-        <title>Mood Lifter</title>
+        <title>Kveta</title>
         <link rel="icon" href="/favicon.ico" />
         <script defer src="/face-api.min.js"></script>
       </Head>
       <main className={styles.main}>
-        <h1 className={styles.title}>Mood Lifter</h1>
+        <h1 className={styles.title}>Kveta</h1>
         <p>
-          Here we will write some words about the project - technology, authors, etc.
+          Here we will write some words about the project - technology, authors, research, etc.
         </p>
       </main>
     </Container>
