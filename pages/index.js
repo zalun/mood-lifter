@@ -136,7 +136,7 @@ class Home extends Component {
     return (
       <Container maxWidth="lg">
         <Head>
-          <title>Mood Lifter</title>
+      <title>Kveta</title>
           <link rel="icon" href="/favicon.ico" />
           <script defer src="/face-api.min.js"></script>
         </Head>
@@ -154,7 +154,7 @@ class Home extends Component {
           url={this.state.pictureUrl}
         />
         <main className={styles.main}>
-          <h1 className={styles.title}>Mood Lifter</h1>
+          <h1 className={styles.title}>Kvetar</h1>
 
           <p className={styles.description}>{this.state.result}</p>
           <CollectExpression
