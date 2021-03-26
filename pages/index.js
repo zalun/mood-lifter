@@ -154,7 +154,7 @@ class Home extends Component {
           url={this.state.pictureUrl}
         />
         <main className={styles.main}>
-          <h1 className={styles.title}>Kvetar</h1>
+          <h1 className={styles.title}>Kveta</h1>
 
           <p className={styles.description}>{this.state.result}</p>
           <CollectExpression
