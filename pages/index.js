@@ -17,7 +17,7 @@ const initialStatus = {
   isButtonVisible: false,
   pictureUrl: '',
   pictureFilename: '',
-  result: 'We will lift your mood in a second! (or two)'
+  result: 'I will lift your mood in a second! (or two)'
 }
 class Home extends Component {
   state = initialStatus
